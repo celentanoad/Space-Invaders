@@ -14,9 +14,20 @@ function draw() {
     background(51);
     ship.show();
     ship.move();
+    edge = false;
+
     for (let i = 0; i < aliens.length; i++) {
         if (aliens[i].toKill) i++;
         aliens[i].show();
+        aliens[i].move();
+        if (aliens[i].x > width ||
+            aliens[i].x < 0) edge = true;
+    }
+
+    if (edge) {
+        for (alien of aliens) {
+            alien.drop();
+        }
     }
     for (let i = 0; i < bullets.length; i++) {
         bullets[i].show();
