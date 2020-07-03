@@ -1,9 +1,11 @@
 let ship;
 let aliens = [];
 let bullets = [];
+let message;
 
 function setup() {
     createCanvas(600, 400);
+    message = new Text();
     ship = new Ship();
     for (let i = 0; i < 5; i++) {
         aliens[i] = new Alien(i * 100 + 100, 50);
@@ -12,10 +14,10 @@ function setup() {
 
 function draw() {
     background(51);
+    message.show();
     ship.show();
     ship.move();
     edge = false;
-
     for (let i = 0; i < aliens.length; i++) {
         if (aliens[i].toKill) i++;
         aliens[i].show();
@@ -39,13 +41,14 @@ function draw() {
             }
         }
     }
-
+    
     for (let i = bullets.length - 1; i >= 0; i--) {
         if (bullets[i].toDelete) bullets.splice(i, 1);
     }
-
+    
     for (let i = aliens.length -1; i >= 0; i--) {
         if (aliens[i].toKill) aliens.splice(i, 1);
+        checkWin();
     }
 }
 
@@ -60,4 +63,11 @@ function keyPressed() {
 
 function keyReleased() {
     if (keyCode !== ' ') ship.setDirection(0);
+}
+
+function checkWin() {
+    if (!aliens.length) {
+        message.setText("You Win!")
+        message.show();
+    }
 }
